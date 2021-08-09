@@ -1,7 +1,7 @@
-package predicate;
+package ch2.predicate;
 
 import java.util.List;
-import model.Apple;
+import ch2.model.Apple;
 
 public class Print {
 

@@ -1,4 +1,4 @@
-package model;
+package ch2.model;
 
 public class Apple {
 

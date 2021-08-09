@@ -1,10 +1,12 @@
+package ch2;
+
 import java.util.ArrayList;
 import java.util.List;
-import model.Apple;
-import model.Color;
-import predicate.ApplePredicate;
+import ch2.model.Apple;
+import ch2.model.Color;
+import ch2.predicate.ApplePredicate;
 
-public class Filter {
+public class AppleFilter {
 
   public static List<Apple> filterGreeApples(List<Apple> inventory) {
     List<Apple> result = new ArrayList<>();
