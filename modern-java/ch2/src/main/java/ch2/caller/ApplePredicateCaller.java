@@ -1,6 +1,6 @@
 package ch2.caller;
 
-import ch2.AppleFilter;
+import ch2.filter.AppleFilter;
 import ch2.model.Apple;
 import ch2.model.Color;
 import ch2.predicate.ApplePredicate;
@@ -18,5 +18,13 @@ public class ApplePredicateCaller {
         return Color.RED.equals(apple.getColor());
       }
     });
+  }
+
+  public void filterApplesWithLambda() {
+    List<Apple> inventory = new ArrayList<>();
+
+    List<Apple> redApples = AppleFilter.filterApples(
+        inventory,
+        (Apple apple) -> Color.RED.equals(apple.getColor()));
   }
 }
