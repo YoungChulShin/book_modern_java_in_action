@@ -1,4 +1,4 @@
-package modern.java.labmda;
+package modern.java.ch3;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

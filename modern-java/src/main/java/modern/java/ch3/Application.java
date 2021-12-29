@@ -1,6 +1,6 @@
-package modern.java;
+package modern.java.ch3;
 
-import modern.java.labmda.LamdaPlayGround;
+import modern.java.ch3.LamdaPlayGround;
 
 public class Application {
 
