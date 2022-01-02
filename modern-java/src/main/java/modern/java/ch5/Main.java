@@ -7,5 +7,8 @@ public class Main {
 
     System.out.println("Equal test: " + playground.equalTest());
     System.out.println("Distinct size: " + playground.distinctTest().size());
+
+    Quiz quiz = new Quiz();
+    quiz.quiz_5_2_3_solve();
   }
 }
