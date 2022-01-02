@@ -1,7 +1,10 @@
 package modern.java.ch5;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -47,4 +50,48 @@ public class Playground {
         .forEach(t -> System.out.println(t[0]+", "+t[1]+", "+t[2]));
   }
 
+  public void generateStream() {
+    List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5);
+    Stream<Integer> stream = integers.stream();
+
+    Stream<Integer> integerStream = Stream.of(1, 2, 3, 4, 5);
+
+    IntStream intStream = IntStream.rangeClosed(1, 5);
+    Stream<Integer> boxed = IntStream.rangeClosed(1, 5).boxed();
+
+    Stream.empty();
+
+    Stream<String> stringStream = Stream.ofNullable("4444");
+  }
+
+  public void infiniteStream() {
+//    Stream.iterate(0, n -> n + 2)
+//        .limit(10)
+//        .forEach(System.out::println);
+
+    // 언박싱이 없도록
+    IntStream.iterate(0, n -> n + 2)
+        .limit(10)
+        .forEach(System.out::println);
+  }
+
+  public void infiniteStream2() {
+    IntSupplier fib = new IntSupplier() {
+      private int previous = 0 ;
+      private int current = 1;
+
+      @Override
+      public int getAsInt() {
+        int oldPrevious = this.previous;
+        int nexValue = this.previous + this.current;
+        this.previous = this.current;
+        this.current = nexValue;
+        return oldPrevious;
+      }
+    };
+
+    IntStream.generate(fib)
+        .limit(10)
+        .forEach(System.out::println);
+  }
 }

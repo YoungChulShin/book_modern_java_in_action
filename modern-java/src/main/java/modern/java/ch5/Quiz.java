@@ -184,6 +184,12 @@ public class Quiz {
         .min(Comparator.comparing(Transaction::getValue));
   }
 
+  public void quiz_5_4() {
+    Stream.iterate(new int[]{0, 1}, n -> new int[]{n[1], n[0] + n[1]})
+        .limit(20)
+        .forEach(t -> System.out.println("(" + t[0] + "," + t[1] + ")"));
+  }
+
 
   private List<Transaction> getTransactionData() {
     Trader raoul = new Trader("Roul", "Cambridge");

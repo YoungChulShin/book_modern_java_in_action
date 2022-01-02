@@ -3,11 +3,10 @@ package modern.java.ch5;
 public class Main {
 
   public static void main(String[] args) {
-      Playground playground = new Playground();
-      playground.pythagoras2();
-//
-//    System.out.println("Equal test: " + playground.equalTest());
-//    System.out.println("Distinct size: " + playground.distinctTest().size());
+    Playground playground = new Playground();
+    // playground.pythagoras2();
+    // playground.infiniteStream();
+    playground.infiniteStream();
 
     Quiz quiz = new Quiz();
     // quiz.quiz_5_2_3_solve();
@@ -19,7 +18,7 @@ public class Main {
     // quiz.quiz_5_6_6();
     // quiz.quiz_5_6_7();
     // quiz.quiz_5_6_8();
-
+    // quiz.quiz_5_4();
 
   }
 }
