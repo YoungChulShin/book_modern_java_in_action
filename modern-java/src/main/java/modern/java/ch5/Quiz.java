@@ -2,7 +2,9 @@ package modern.java.ch5;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import modern.java.ch5.Dish.Type;
@@ -78,5 +80,125 @@ public class Quiz {
     Integer reduce = dishes.stream()
         .map(d -> 1)
         .reduce(0, Integer::sum);
+  }
+
+  public void quiz_5_6_1() {
+    List<Transaction> transactions = getTransactionData();
+
+    List<Integer> collect = transactions.stream()
+        .filter(transaction -> transaction.getYear() == 2011)
+        .map(Transaction::getValue)
+        .sorted(Comparator.reverseOrder())
+        .collect(Collectors.toList());
+
+    for (Integer value : collect) {
+      System.out.println(value);
+    }
+  }
+
+  public void quiz_5_6_2() {
+    List<Transaction> transactions = getTransactionData();
+
+    List<String> collect = transactions.stream()
+        .map(t -> t.getTrader().getCity())
+        .distinct()
+        .collect(Collectors.toList());
+
+    for (String value : collect) {
+      System.out.println(value);
+    }
+  }
+
+  public void quiz_5_6_3() {
+    List<Transaction> transactions = getTransactionData();
+
+    List<Trader> values = transactions.stream()
+        .map(Transaction::getTrader)
+        .filter(t -> t.getCity().equals("Cambridge"))
+        .distinct()
+        .sorted(Comparator.comparing(Trader::getName))
+        .collect(Collectors.toList());
+
+    for (Trader value : values) {
+      System.out.println(value);
+    }
+  }
+
+  public void quiz_5_6_4() {
+    List<Transaction> transactions = getTransactionData();
+
+    String reduce = transactions.stream()
+        .map(t -> t.getTrader().getName())
+        .distinct()
+        .sorted()
+        .reduce("", (t1, t2) -> t1 + " " + t2);
+
+    String reduce2 = transactions.stream()
+        .map(t -> t.getTrader().getName())
+        .distinct()
+        .sorted()
+        .collect(Collectors.joining());
+
+    System.out.println(reduce);
+    System.out.println(reduce2);
+  }
+
+  public void quiz_5_6_5() {
+    List<Transaction> transactions = getTransactionData();
+
+    boolean milan = transactions.stream()
+        .anyMatch(t -> t.getTrader().getCity().equals("Milan"));
+
+    System.out.println(milan);
+  }
+  public void quiz_5_6_6() {
+    List<Transaction> transactions = getTransactionData();
+
+    Integer sum = transactions.stream()
+        .filter(t -> t.getTrader().getCity().equals("Cambridge"))
+        .map(t -> t.getValue())
+        .reduce(0, Integer::sum);
+
+    System.out.println(sum);
+  }
+
+  public void quiz_5_6_7() {
+    List<Transaction> transactions = getTransactionData();
+
+    Integer reduce = transactions.stream()
+        .map(t -> t.getValue())
+        .reduce(0, Integer::max);
+
+    System.out.println(reduce);
+  }
+
+  public void quiz_5_6_8() {
+    List<Transaction> transactions = getTransactionData();
+
+    transactions.stream()
+        .map(Transaction::getValue)
+        .reduce(Integer::min)
+        .ifPresent(System.out::println);
+
+    Optional<Transaction> min = transactions.stream()
+        .min(Comparator.comparing(Transaction::getValue));
+  }
+
+
+  private List<Transaction> getTransactionData() {
+    Trader raoul = new Trader("Roul", "Cambridge");
+    Trader mario = new Trader("Mario", "Milan");
+    Trader alan = new Trader("Alan", "Cambridge");
+    Trader brian = new Trader("Brian", "Cambridge");
+
+    List<Transaction> transactions = Arrays.asList(
+        new Transaction(brian, 2011, 300),
+        new Transaction(raoul, 2012, 1000),
+        new Transaction(raoul, 2011, 400),
+        new Transaction(mario, 2012, 710),
+        new Transaction(mario, 2012, 700),
+        new Transaction(alan, 2012, 950));
+
+    return transactions;
   }
 }
