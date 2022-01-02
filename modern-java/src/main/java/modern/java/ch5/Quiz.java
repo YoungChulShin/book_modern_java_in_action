@@ -67,4 +67,16 @@ public class Quiz {
       System.out.println(i[0] + " : " + i[1]);
     }
   }
+
+  public void quiz_5_3_solve() {
+    Dish dish1 = new Dish("a", false, 100, Type.MEAT);
+    Dish dish2 = new Dish("a", false, 100, Type.MEAT);
+    Dish dish3 = new Dish("a", false, 100, Type.MEAT);
+    Dish dish4 = new Dish("a", false, 100, Type.MEAT);
+
+    List<Dish> dishes = Arrays.asList(dish1, dish2, dish3, dish4);
+    Integer reduce = dishes.stream()
+        .map(d -> 1)
+        .reduce(0, Integer::sum);
+  }
 }
