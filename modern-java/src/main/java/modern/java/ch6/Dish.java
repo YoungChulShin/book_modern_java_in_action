@@ -1,4 +1,4 @@
-package modern.java.ch5;
+package modern.java.ch6;
 
 import java.util.Objects;
 

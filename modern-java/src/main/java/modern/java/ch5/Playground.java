@@ -1,14 +1,13 @@
 package modern.java.ch5;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import modern.java.ch5.Dish.Type;
+import modern.java.ch6.Dish;
+import modern.java.ch6.Dish.Type;
 
 public class Playground {
 

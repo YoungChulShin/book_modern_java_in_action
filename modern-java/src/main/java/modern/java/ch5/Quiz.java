@@ -1,13 +1,13 @@
 package modern.java.ch5;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import modern.java.ch5.Dish.Type;
+import modern.java.ch6.Dish;
+import modern.java.ch6.Dish.Type;
 
 public class Quiz {
 
