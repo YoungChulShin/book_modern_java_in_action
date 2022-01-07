@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.filtering;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.partitioningBy;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Comparator;
@@ -132,6 +133,33 @@ public class Playground {
         .collect(Collectors.toMap(Dish::getType, Function.identity(),
             BinaryOperator.maxBy(comparingInt(Dish::getCalories))));
   }
+
+  public void testPartitioning() {
+    List<Dish> menu = Ch6Helper.getMenu();
+
+    Map<Boolean, List<Dish>> collect = menu.stream()
+        .collect(partitioningBy(Dish::isVegeterian));
+
+    System.out.println(collect.get(true));
+
+    List<Dish> collect1 = menu.stream().filter(Dish::isVegeterian).collect(toList());
+    System.out.println(collect1);
+  }
+
+  public void testPartitioning2() {
+    List<Dish> menu = Ch6Helper.getMenu();
+
+    Map<Boolean, Map<Type, List<Dish>>> collect = menu.stream()
+        .collect(partitioningBy(
+            Dish::isVegeterian,
+            groupingBy(Dish::getType)
+        ));
+
+    System.out.println(collect);
+  }
+
+
+
 
   public enum CaloricLevel { DIET, NORMAL, FAT }
 }
