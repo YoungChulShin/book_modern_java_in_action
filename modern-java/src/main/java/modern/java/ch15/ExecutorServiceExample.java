@@ -12,25 +12,29 @@ public class ExecutorServiceExample {
     int x = 1337;
 
     ExecutorService executorService = Executors.newFixedThreadPool(2);
-    Future<Integer> y = executorService.submit(() -> f(x));
-    Future<Integer> z = executorService.submit(() -> g(x));
+    Future<Integer> y = executorService.submit(() -> f(x)); // 실행
+    Future<Integer> z = executorService.submit(() -> g(x)); // 실행
     System.out.println(y.get() + " " + z.get());
 
     executorService.shutdown();
   }
 
   private static int f(int x) {
-    for (int i = 1; i < 10000000; i++) {
+    System.out.println("f 시작");
+    for (int i = 1; i < 100000000; i++) {
       x++;
     }
+    System.out.println("f 종료");
 
     return x;
   }
 
   private static int g(int x) {
-    for (int i = 1; i < 10000000; i++) {
+    System.out.println("g 시작");
+    for (int i = 1; i < 100000000; i++) {
       x++;
     }
+    System.out.println("g 종료");
 
     return x;
   }
