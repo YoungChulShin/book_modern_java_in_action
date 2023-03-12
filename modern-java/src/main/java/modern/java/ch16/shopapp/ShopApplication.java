@@ -20,7 +20,11 @@ public class ShopApplication {
 //    System.out.println("====================Search Async==================");
 //    searchAsync();
 
-    searchProductPrice();
+//    searchProductPrice();
+
+//    searchProductPriceWithDiscount();
+
+    searchProductPriceWithDiscountAsync();
   }
 
   private static void searchSync() {
@@ -71,7 +75,8 @@ public class ShopApplication {
 
     List<CompletableFuture<String>> priceFuture = shops.stream()
         .map(shop -> CompletableFuture.supplyAsync(() ->
-            String.format("%s price is %.2f", shop.getName(), shop.getPrice("viewfinity")), executorService))
+                String.format("%s price is %.2f", shop.getName(), shop.getPrice("viewfinity")),
+            executorService))
         .collect(Collectors.toList());
 
     List<String> collect = priceFuture.stream()
@@ -85,4 +90,56 @@ public class ShopApplication {
     System.out.println(collect);
   }
 
+  /**
+   * 가격 계산과 할인 계산을 동기로 실행한다.
+   * 각각 1초의 delay가 있기 때문에 총 10초가 걸린다.
+   */
+  private static void searchProductPriceWithDiscount() {
+    List<Shop> shops = Arrays.asList(
+        new Shop("Shop A"),
+        new Shop("Shop B"),
+        new Shop("Shop C"),
+        new Shop("Shop D"),
+        new Shop("Shop E"));
+    String product = "viewfinity";
+
+    long start = System.currentTimeMillis();
+
+    List<String> resultPrice = shops.stream()
+        .map(shop -> shop.getPriceWithDiscount(product))
+        .map(Quote::parse)
+        .map(Discount::applyDiscount)
+        .collect(Collectors.toList());
+
+    long end = System.currentTimeMillis();
+    System.out.println("elapsed : " + (end - start));
+    System.out.println(resultPrice);
+  }
+
+  private static void searchProductPriceWithDiscountAsync() {
+    List<Shop> shops = Arrays.asList(
+        new Shop("Shop A"),
+        new Shop("Shop B"),
+        new Shop("Shop C"),
+        new Shop("Shop D"),
+        new Shop("Shop E"));
+    String product = "viewfinity";
+
+    long start = System.currentTimeMillis();
+
+    List<CompletableFuture<String>> collect = shops.stream()
+        .map(shop -> CompletableFuture.supplyAsync(() -> shop.getPriceWithDiscount(product)))
+        .map(future -> future.thenApply(Quote::parse))
+        .map(future -> future.thenCompose(
+            quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote))))
+        .collect(Collectors.toList());
+
+    List<String> price = collect.stream()
+        .map(CompletableFuture::join)
+        .collect(Collectors.toList());
+
+    long end = System.currentTimeMillis();
+    System.out.println("elapsed : " + (end - start));
+    System.out.println(price);
+  }
 }

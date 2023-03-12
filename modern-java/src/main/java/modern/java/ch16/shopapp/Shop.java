@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import modern.java.ch16.shopapp.Discount.Code;
 
 public class Shop {
 
@@ -20,6 +21,12 @@ public class Shop {
 
   public double getPrice(String product) {
     return calculatePrice(product);
+  }
+
+  public String getPriceWithDiscount(String product) {
+    double price = calculatePrice(product);
+    Discount.Code code = Discount.Code.values()[random.nextInt(Code.values().length)];
+    return String.format("%s:%.2f:%s", name, price, code);
   }
 
   public void doShopping() {
@@ -73,7 +80,7 @@ public class Shop {
   }
 
   private double calculatePrice(String product) {
-    delay(3000);
+    delay(1000);
     return random.nextDouble() * product.charAt(0) + product.charAt(1);
   }
 
