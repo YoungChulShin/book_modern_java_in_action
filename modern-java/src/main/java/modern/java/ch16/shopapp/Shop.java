@@ -14,6 +14,10 @@ public class Shop {
     this.name = name;
   }
 
+  public String getName() {
+    return name;
+  }
+
   public double getPrice(String product) {
     return calculatePrice(product);
   }

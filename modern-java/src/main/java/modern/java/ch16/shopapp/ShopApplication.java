@@ -1,6 +1,10 @@
 package modern.java.ch16.shopapp;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 public class ShopApplication {
 
@@ -8,9 +12,11 @@ public class ShopApplication {
 //    System.out.println("====================Search Sync==================");
 //    searchSync();
 
-    System.out.println();
-    System.out.println("====================Search Async==================");
-    searchAsync();
+//    System.out.println();
+//    System.out.println("====================Search Async==================");
+//    searchAsync();
+
+    searchProductPrice();
   }
 
   private static void searchSync() {
@@ -43,6 +49,30 @@ public class ShopApplication {
 
     long retrievalTime = ((System.nanoTime() - start) / 1_000_000);
     LogUtils.print("Price returned after " + retrievalTime + " msecs");
+  }
+
+  private static void searchProductPrice() {
+    List<Shop> shops = Arrays.asList(
+        new Shop("Shop A"),
+        new Shop("Shop B"),
+        new Shop("Shop C"),
+        new Shop("Shop D"),
+        new Shop("Shop D"));
+
+    long start = System.currentTimeMillis();
+
+    List<CompletableFuture<String>> priceFuture = shops.stream()
+        .map(shop -> CompletableFuture.supplyAsync(() ->
+            String.format("%s price is %.2f", shop.getName(), shop.getPrice("viewfinity"))))
+        .collect(Collectors.toList());
+
+    List<String> collect = priceFuture.stream()
+        .map(CompletableFuture::join)
+        .collect(Collectors.toList());
+
+    long end = System.currentTimeMillis();
+    System.out.println("elapsed : " + (end - start));
+    System.out.println(collect);
   }
 
 }
