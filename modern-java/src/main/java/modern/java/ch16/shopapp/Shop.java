@@ -24,22 +24,48 @@ public class Shop {
     LogUtils.print("end shopping");
   }
 
-  public Future<Double> getPriceAsync(String product) {
-    CompletableFuture<Double> futurePrice = new CompletableFuture<>();
-    new Thread(() -> {
-      try {
-        if (product.equals("ErrorProduct")) {
-          throw new RuntimeException("Product is not available");
-        }
-        double price = calculatePrice(product);
-        LogUtils.print(product + " price is " + price);
-        futurePrice.complete(price);
-      } catch (Exception e) {
-        futurePrice.completeExceptionally(e);
-      }
-    }).start();
+//  public Future<Double> getPriceAsync(String product) {
+//    CompletableFuture<Double> futurePrice = new CompletableFuture<>();
+//    new Thread(() -> {
+//      try {
+//        if (product.equals("ErrorProduct")) {
+//          throw new RuntimeException("Product is not available");
+//        }
+//        double price = calculatePrice(product);
+//        LogUtils.print(product + " price is " + price);
+//        futurePrice.complete(price);
+//      } catch (Exception e) {
+//        futurePrice.completeExceptionally(e);
+//      }
+//    }).start();
+//
+//    return futurePrice;
+//  }
 
-    return futurePrice;
+  public Future<Double> getPriceAsync(String product) {
+    return CompletableFuture.supplyAsync(() -> {
+      if (product.equals("ErrorProduct")) {
+        throw new RuntimeException("Product is not available");
+      }
+      double price = calculatePrice(product);
+      LogUtils.print(product + " price is " + price);
+      return price;
+    });
+//    CompletableFuture<Double> futurePrice = new CompletableFuture<>();
+//    new Thread(() -> {
+//      try {
+//        if (product.equals("ErrorProduct")) {
+//          throw new RuntimeException("Product is not available");
+//        }
+//        double price = calculatePrice(product);
+//        LogUtils.print(product + " price is " + price);
+//        futurePrice.complete(price);
+//      } catch (Exception e) {
+//        futurePrice.completeExceptionally(e);
+//      }
+//    }).start();
+//
+//    return futurePrice;
   }
 
   private double calculatePrice(String product) {

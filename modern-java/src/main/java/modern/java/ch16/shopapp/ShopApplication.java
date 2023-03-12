@@ -29,7 +29,7 @@ public class ShopApplication {
     long start = System.nanoTime();
     LogUtils.print("Start getPrice");
 //    Future<Double> futurePrice = shop.getPriceAsync("my favorate product");
-    Future<Double> futurePrice = shop.getPriceAsync("ErrorProduct");
+    Future<Double> futurePrice = shop.getPriceAsync("ErrorProduct1");
     long invocationTime = ((System.nanoTime() - start) / 1_000_000);
     LogUtils.print("Stop getPrice after " + invocationTime + " msecs");
 
