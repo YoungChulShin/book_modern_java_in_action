@@ -5,8 +5,8 @@ import java.util.concurrent.Future;
 public class ShopApplication {
 
   public static void main(String[] args) {
-    System.out.println("====================Search Sync==================");
-    searchSync();
+//    System.out.println("====================Search Sync==================");
+//    searchSync();
 
     System.out.println();
     System.out.println("====================Search Async==================");
@@ -28,7 +28,8 @@ public class ShopApplication {
     Shop shop = new Shop("BestShop");
     long start = System.nanoTime();
     LogUtils.print("Start getPrice");
-    Future<Double> futurePrice = shop.getPriceAsync("my favorate product");
+//    Future<Double> futurePrice = shop.getPriceAsync("my favorate product");
+    Future<Double> futurePrice = shop.getPriceAsync("ErrorProduct");
     long invocationTime = ((System.nanoTime() - start) / 1_000_000);
     LogUtils.print("Stop getPrice after " + invocationTime + " msecs");
 
