@@ -1,10 +1,14 @@
 package modern.java.ch16.shopapp;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ShopApplication {
 
@@ -52,23 +56,29 @@ public class ShopApplication {
   }
 
   private static void searchProductPrice() {
-    List<Shop> shops = Arrays.asList(
-        new Shop("Shop A"),
-        new Shop("Shop B"),
-        new Shop("Shop C"),
-        new Shop("Shop D"),
-        new Shop("Shop D"));
+//    List<Shop> shops = Arrays.asList(
+//        new Shop("Shop A"),
+//        new Shop("Shop B"),
+//        new Shop("Shop C"),
+//        new Shop("Shop D"),
+//        new Shop("Shop D"));
+    List<Shop> shops = new ArrayList<>();
+    IntStream.rangeClosed(1, 10).forEach(i -> shops.add(new Shop(String.valueOf(i))));
+
+    ExecutorService executorService = Executors.newFixedThreadPool(20);
 
     long start = System.currentTimeMillis();
 
     List<CompletableFuture<String>> priceFuture = shops.stream()
         .map(shop -> CompletableFuture.supplyAsync(() ->
-            String.format("%s price is %.2f", shop.getName(), shop.getPrice("viewfinity"))))
+            String.format("%s price is %.2f", shop.getName(), shop.getPrice("viewfinity")), executorService))
         .collect(Collectors.toList());
 
     List<String> collect = priceFuture.stream()
         .map(CompletableFuture::join)
         .collect(Collectors.toList());
+
+    executorService.shutdown();
 
     long end = System.currentTimeMillis();
     System.out.println("elapsed : " + (end - start));
